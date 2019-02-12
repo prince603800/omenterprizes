@@ -39,7 +39,10 @@ public class CostumerRegistration extends HttpServlet {
 		String localAddr= request.getParameter("localAddr");
 		String perAddr= request.getParameter("perAddr");
 		String phneno = request.getParameter("pNum");
+		boolean answer = Database.dublicateCostumer(pName, phneno);
+		out.print(answer);
 		
+		//if(answer){
 		try {
 			Connection con = Database.conn();
 			PreparedStatement ps = con.prepareStatement("insert into costumerinfo(firmName,pName,localAddr,perAddr,phneno)values(?,?,?,?,?)");
@@ -52,7 +55,12 @@ public class CostumerRegistration extends HttpServlet {
 			i = ps.executeUpdate();
 			
 			if(i>0){
+				con.close();
 				out.print("Successfully registered");
+				//int id =  Database.ReturnCostumerId(pName, phneno);
+				//out.print("The costumer id of " + pName +" with phone no " + phneno+ "is " + id);
+				RequestDispatcher rd = request.getRequestDispatcher("index.html");
+				rd.include(request, response);
 			}
 			else{
 				out.print("Registration Failed");
@@ -63,11 +71,13 @@ public class CostumerRegistration extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
+		}//else{
+			//out.print("The costumer already exists");
+		//}
 		
 	}
 
 	
 	
 
-}
+

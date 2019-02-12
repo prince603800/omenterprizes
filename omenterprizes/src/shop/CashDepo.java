@@ -45,10 +45,10 @@ public class CashDepo extends HttpServlet {
 		   int i =0;
 		   i = ps.executeUpdate();
 		   if(i>0){
-			   out.print("Cash Deposited Successfully");
-			   con.close();
 			   
-			   RequestDispatcher rd = request.getRequestDispatcher("homepage.html");
+			   con.close();
+			   out.print("<h2>Cash Deposited Successfully</h2>");
+			   RequestDispatcher rd = request.getRequestDispatcher("index.html");
 			   rd.forward(request, response);
 		   }
 		   else{

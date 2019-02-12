@@ -37,12 +37,6 @@ public class Billing extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html");
 		
-		
-		ArrayList<String> item1 = new ArrayList<String>();
-		ArrayList<Integer> cost1 = new ArrayList<Integer>();
-		ArrayList<Integer> quantity = new ArrayList<Integer>();
-		ArrayList<Integer> totalCost1 = new ArrayList<Integer>();
-		
 		float totalpack,totalCost,sum=0;
 		String name = request.getParameter("name");
 		String item = request.getParameter("item");
@@ -67,8 +61,8 @@ public class Billing extends HttpServlet {
 	    out.print(totalpack+"  " +sum);
 		totalCost = cost*totalpack;
 		
-		ServletContext context = getServletContext();
-		context.setAttribute("name", name);
+		
+		
 		try {
 			Connection con = Database.conn();
 			PreparedStatement ps = con.prepareStatement("insert into billing(date,name ,itemName ,cost ,size ,totalpack ,totalcost )values(curdate(),?,?,?,?,?,?)");
@@ -83,12 +77,14 @@ public class Billing extends HttpServlet {
 			i = ps.executeUpdate();
 			 
 			if(i>0){
-				RequestDispatcher rd = request.getRequestDispatcher("billing1.html");
+				ServletContext context = getServletContext();
+				context.setAttribute("name", name);
+				RequestDispatcher rd = request.getRequestDispatcher("billingcheck.html");
 				rd.include(request, response);
 			}
 			else{
 				out.print("Not added Please try again");
-				RequestDispatcher rd = request.getRequestDispatcher("billing.html");
+				RequestDispatcher rd = request.getRequestDispatcher("index.html");
 				rd.include(request, response);
 			}
 			con.close();

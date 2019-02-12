@@ -65,4 +65,65 @@ public class Database {
 		return totalDebitAmount;
 	}
 	
+public static double totalReturnAmount(String name){
+		
+		double totalReturnAmount=0;
+		try {
+			Connection con = Database.conn();
+			PreparedStatement ps = con.prepareStatement("select *from return1 where name = ?");
+			ps.setString(1, name);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				totalReturnAmount+= rs.getDouble("totalcost");
+			}
+			con.close();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return totalReturnAmount;
+	}
+	
+	public static boolean dublicateCostumer(String name,String phneno){
+		boolean answer= true;
+		try {
+			Connection con = Database.conn();
+			PreparedStatement ps = con.prepareStatement("select *from costumerinfo where pname = ? and phneno=?");
+			ps.setString(1, name);
+			ps.setString(2,phneno);
+			ResultSet rs = ps.executeQuery();
+			//costumer exists
+			if(rs.next()){
+				answer = true;
+			}
+			//costumer doesn't exists
+			else{
+				answer = false;
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return answer;
+	}
+	
+	public static int ReturnCostumerId(String name , String phneno){
+		int id = 0;
+		try {
+			Connection con = Database.conn();
+			PreparedStatement ps = con.prepareStatement("select *from billing where name = ? and phneno=?");
+			ps.setString(1, name);
+			ps.setString(2,phneno);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			id = rs.getInt("id");	 
+			
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return id;
+	}
 }

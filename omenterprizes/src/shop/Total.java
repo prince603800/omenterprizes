@@ -41,7 +41,7 @@ public class Total extends HttpServlet {
 		String name = (String)context.getAttribute("name");
 		double grandTotal=0 ;
 		
-		
+		out.print(name);
 		out.print("<head>");
 		out.print("<style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}tr:nth-child(even) {background-color: #dddddd;}</style>");
 		out.print("</head>");
@@ -63,7 +63,7 @@ public class Total extends HttpServlet {
 			con.close();
 			out.print("<tr><td>GrandTotal: </td><td>--</td><td>--</td><td>--</td><td>--</td><td>"+grandTotal+"</td></tr>");
 			out.print("</table>");
-			out.print("<a href='homepage.html'>HomePage</a>");
+			out.print("<button><a href='index.html'>HomePage</a></button>");
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
